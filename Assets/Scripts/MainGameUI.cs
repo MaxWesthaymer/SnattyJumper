@@ -48,6 +48,7 @@ public class MainGameUI : MonoBehaviour
 		_leaderBtnMenu.onClick.AddListener(() =>{ GooglePlay._instance.LogIn(); });
 		_soundBtn.onClick.AddListener(() => { MuteAudio(); });
 		_rateBtn.onClick.AddListener(() =>{ GameControl.instance.RateUs(); });
+		SetVolume();
 	}
 
 	private void Update()
@@ -139,9 +140,25 @@ public class MainGameUI : MonoBehaviour
 		
 	}
 	
-	public void MuteAudio()
+	private void MuteAudio()
 	{		
-		AudioListener.volume = AudioListener.volume < 0.1f ? 1.0f : 0.0f;
+		if (AudioListener.volume >= 1)
+		{
+			AudioListener.volume = 0;
+			PlayerPrefs.SetFloat ("mutter", 0);
+			_soundBtn.gameObject.GetComponent<Image>().sprite = _soudSprites[0];
+		}
+		else
+		{
+			AudioListener.volume = 1;
+			PlayerPrefs.SetFloat ("mutter", 1);
+			_soundBtn.gameObject.GetComponent<Image>().sprite = _soudSprites[1];
+		}	
+	}
+
+	private void SetVolume()
+	{
+		AudioListener.volume = PlayerPrefs.GetFloat ("mutter", 1);
 		_soundBtn.gameObject.GetComponent<Image>().sprite = AudioListener.volume < 0.1f ? _soudSprites[0] : _soudSprites[1];
 	}
 }
