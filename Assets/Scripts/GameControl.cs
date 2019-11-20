@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
@@ -10,7 +11,8 @@ public class GameControl : MonoBehaviour {
 	public float scrollSpeed = -3f;
 	public float giftXPosition = 4f;
 	public GameObject _player;
-	[SerializeField] private  MainGameUI _mainGameUi;	
+	[SerializeField] private  MainGameUI _mainGameUi;
+	[SerializeField] private AudioSource music;
 	#endregion
 
 	#region Propierties
@@ -21,6 +23,7 @@ public class GameControl : MonoBehaviour {
 	public int SkyColorIndex { get; set; }
 	public float loadRandonValue { get; set;}
 	public float SceneRandomValue { get; set;}
+	public bool _isFirstLaunch;
 	#endregion
 	
 	#region PrivateFields
@@ -61,11 +64,13 @@ public class GameControl : MonoBehaviour {
 
 	void Start()
 	{
+		Application.targetFrameRate = 60;
 		_shareAndRate = GetComponent<ShareAndRate>();
 		_player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
 		isMainMenu = true;
 		colomnPool.enabled = false;
-		SpawnXPosition = Camera.main.aspect * Camera.main.orthographicSize + 1f;
+		SpawnXPosition = Camera.main.aspect * Camera.main.orthographicSize + 1f;	
+		MusicController._instance.SetVolume(0.4f, 0.5f);
 		Setup ();
 		PurposeChanger();
 		if (_isContinue)
@@ -76,12 +81,9 @@ public class GameControl : MonoBehaviour {
 
 	private void OnApplicationQuit()
 	{
-		if (PlayerPrefs.HasKey("isContinue"))
-		{
-			PlayerPrefs.DeleteKey("isContinue");
-		}	
-	}
 	
+	}
+
 	#endregion
 
 	#region PrivateMethods
@@ -129,8 +131,8 @@ public class GameControl : MonoBehaviour {
 		_continueCost = _isContinue ? 100 : 20;
 		_mainGameUi.GameOver(_score,_bestScore,_gifts, _continueCost);
 		gameOver = true;
+		MusicController._instance.SetVolume(0.05f, 0.5f);
 		Save();
-		AdMobController._instance.GameOver();
 	}
 
 	public void StartGame()
@@ -159,22 +161,38 @@ public class GameControl : MonoBehaviour {
 		PlayerPrefs.SetInt("gifts",_gifts);	
 		PlayerPrefs.SetInt("currentscore", _score);
 		PlayerPrefs.SetInt("isContinue", 1);
-		SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);		
+		SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
+		if (_isFirstLaunch)
+		{
+			PlayerPrefs.SetInt("isfirstlaunch", 0);
+			return;
+		}
+		AdMobController._instance.GameOver();
 	}
 	
 	public void Reload()
 	{
 		PlayerPrefs.SetInt("isContinue", 0);
-		SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);		
+		SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
+		if (_isFirstLaunch)
+		{
+			PlayerPrefs.SetInt("isfirstlaunch", 0);
+			return;
+		}
+		AdMobController._instance.GameOver();
 	}	
 	
 	private void Load()
 	{
 		_bestScore = PlayerPrefs.GetInt("Score", 0);
 		_gifts = PlayerPrefs.GetInt("gifts", 0);
-		
+		_isFirstLaunch = PlayerPrefs.GetInt("isfirstlaunch", 1) > 0;
 		_isContinueFlag = PlayerPrefs.GetInt("isContinue", 0);
 		_isContinue = _isContinueFlag > 0;
+		if (_isContinue)
+		{
+			PlayerPrefs.DeleteKey("isContinue");
+		}
 	}
 
 	private void PurposeChanger()

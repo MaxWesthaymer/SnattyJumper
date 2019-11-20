@@ -49,14 +49,23 @@ public class PlayerController : MonoBehaviour {
 			return;
 		}
 		
-		rb2d.velocity = Vector2.zero;
-		isDead = true;
-		GameControl.instance.BirdDied ();
-		GetComponent<Animator>().Play("Dead");
 		if (other.gameObject.tag == "Floor")
 		{
 			rb2d.gravityScale = 0f;	
 		}
+
+		if (isDead)
+		{
+			return;
+		}
+		
+		rb2d.velocity = Vector2.zero;
+		isDead = true;
+		GameControl.instance.BirdDied ();
+		GetComponent<Animator>().Play("Dead");
+		_audioSource.clip = playerDeadSnd;
+		_audioSource.volume = 0.1f;
+		_audioSource.Play();
 	}
 
 	private void OnTriggerEnter2D(Collider2D other) 
