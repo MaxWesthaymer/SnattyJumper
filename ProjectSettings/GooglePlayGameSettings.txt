@@ -1,5 +1,5 @@
-lastUpgrade=00955
-proj.pluginVersion=0.9.55
+lastUpgrade=01006
+proj.pluginVersion=0.10.06
 proj.AppId=164631803381
 and.BundleId=com.mlnca.slatty
 proj.classDir=Assets

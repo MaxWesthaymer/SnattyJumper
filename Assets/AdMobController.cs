@@ -36,7 +36,7 @@ public class AdMobController : MonoBehaviour {
         #else
             string appId = "unexpected_platform";
         #endif
-		MobileAds.Initialize(appId);
+		MobileAds.Initialize(initStatus => { });
 		//RequestBanner();
 		RequestInterstitial();
 	}
