@@ -148,7 +148,6 @@ public class ColomnPool : MonoBehaviour {
 				{
 					ChangeSprite(_pongs);
 				}
-				Debug.Log("SWITCHING " + _currentPrefab);
 			}
 		}
 	}

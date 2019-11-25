@@ -23,7 +23,6 @@ public class GameControl : MonoBehaviour {
 	public int SkyColorIndex { get; set; }
 	public float loadRandonValue { get; set;}
 	public float SceneRandomValue { get; set;}
-	public bool _isFirstLaunch;
 	#endregion
 	
 	#region PrivateFields
@@ -162,9 +161,8 @@ public class GameControl : MonoBehaviour {
 		PlayerPrefs.SetInt("currentscore", _score);
 		PlayerPrefs.SetInt("isContinue", 1);
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
-		if (_isFirstLaunch)
+		if (_score <= 3)
 		{
-			PlayerPrefs.SetInt("isfirstlaunch", 0);
 			return;
 		}
 		AdMobController._instance.GameOver();
@@ -174,9 +172,8 @@ public class GameControl : MonoBehaviour {
 	{
 		PlayerPrefs.SetInt("isContinue", 0);
 		SceneManager.LoadScene (SceneManager.GetActiveScene ().buildIndex);
-		if (_isFirstLaunch)
+		if (_score <= 3)
 		{
-			PlayerPrefs.SetInt("isfirstlaunch", 0);
 			return;
 		}
 		AdMobController._instance.GameOver();
@@ -186,7 +183,6 @@ public class GameControl : MonoBehaviour {
 	{
 		_bestScore = PlayerPrefs.GetInt("Score", 0);
 		_gifts = PlayerPrefs.GetInt("gifts", 0);
-		_isFirstLaunch = PlayerPrefs.GetInt("isfirstlaunch", 1) > 0;
 		_isContinueFlag = PlayerPrefs.GetInt("isContinue", 0);
 		_isContinue = _isContinueFlag > 0;
 		if (_isContinue)

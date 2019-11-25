@@ -16703,7 +16703,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 956ad2f73332544fd87365087825cc4f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: d8f7a78a964aa489aafb3749d805cd4b, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1
@@ -17439,7 +17439,6 @@ MonoBehaviour:
   _player: {fileID: 766912980}
   _mainGameUi: {fileID: 2141689332}
   music: {fileID: 841178199}
-  _isFirstLaunch: 0
 --- !u!4 &1011531346
 Transform:
   m_ObjectHideFlags: 0
