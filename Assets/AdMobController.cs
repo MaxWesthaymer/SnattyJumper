@@ -85,5 +85,7 @@ public class AdMobController : MonoBehaviour {
 		{
 			this.interstitial.Show();
 		}
+
+		RequestInterstitial();
 	}
 }

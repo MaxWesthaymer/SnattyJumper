@@ -40,3 +40,11 @@ The following packages were added:
   com.unity.textmeshpro@2.0.1
 The following packages were updated:
   com.unity.ide.vscode from version 1.1.0 to 1.1.2
+
+=== Tue Feb 25 19:49:00 2020
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.ide.vscode from version 1.1.2 to 1.1.3
